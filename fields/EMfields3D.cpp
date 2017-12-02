@@ -1,5 +1,5 @@
 
-#include "EMfields3D.h"
+#include "../include/EMfields3D.h"
 
 /*! constructor */
 EMfields3D::EMfields3D(Collective * col, Grid * grid) {

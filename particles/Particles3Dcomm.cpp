@@ -10,19 +10,19 @@ developers: Stefano Markidis, Giovanni Lapenta.
 #include <string>
 #include <fstream>
 #include <math.h>
-#include "VirtualTopology3D.h"
-#include "VCtopology3D.h"
-#include "Collective.h"
-#include "ComParticles3D.h"
-#include "Alloc.h"
-#include "Basic.h"
-#include "BcParticles.h"
-#include "Grid.h"
-#include "Grid3DCU.h"
-#include "Field.h"
-#include "MPIdata.h"
+#include "../include/VirtualTopology3D.h"
+#include "../include/VCtopology3D.h"
+#include "../include/Collective.h"
+#include "../include/ComParticles3D.h"
+#include "../include/Alloc.h"
+#include "../include/Basic.h"
+#include "../include/BcParticles.h"
+#include "../include/Grid.h"
+#include "../include/Grid3DCU.h"
+#include "../include/Field.h"
+#include "../include/MPIdata.h"
 
-#include "Particles3Dcomm.h"
+#include "../include/Particles3Dcomm.h"
 
 #include "hdf5.h"
 #include <vector>

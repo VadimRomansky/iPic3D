@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="iPic3D"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/vadim/iPic3D/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/vadim/iPic3D/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/vadim/iPic3D/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="iPic3D">
+				<Option output="/home/vadim/iPic3D/cmake-build-debug/iPic3D" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir=""/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/vadim/HDF5/include"/>
+					<Add directory="/home/vadim/mpich2-install/include"/>
+					<Add directory="/home/vadim/H5hut/include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 iPic3D"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="iPic3D/fast">
+				<Option output="/home/vadim/iPic3D/cmake-build-debug/iPic3D" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir=""/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/vadim/HDF5/include"/>
+					<Add directory="/home/vadim/mpich2-install/include"/>
+					<Add directory="/home/vadim/H5hut/include"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 iPic3D/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/vadim/iPic3D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/vadim/iPic3D/ConfigFile/src/ConfigFile.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/ConfigFile/src/ConfigFile.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/PSKOutput3D/PSKhdf5adaptor.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/bc/BcFields3D.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/bc/BcParticles.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/communication/ComBasic3D.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/communication/ComInterpNodes3D.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/communication/ComNodes3D.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/communication/ComParser3D.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/communication/ComParticles3D.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/communication/VCtopology3D.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/fields/BCStructure.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/fields/EMfields3D.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/grids/Grid3DCU.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/iPic3D.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/Alloc.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/BCStructure.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/Basic.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/BcFields3D.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/BcParticles.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/Bessel.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/CG.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/Collective.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/ComBasic3D.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/ComInterpNodes3D.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/ComNodes3D.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/ComParser3D.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/ComParticles3D.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/ConfigFile.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/EMfields3D.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/EllipticF.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/Field.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/GMRES.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/Grid.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/Grid3DCU.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/InterfaceFluid.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/MPIdata.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/PSKException.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/PSKOutput.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/PSKhdf5adaptor.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/ParallelIO.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/Particles.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/Particles3D.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/Particles3Dcomm.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/Restart3D.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/TimeTasks.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/Timing.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/TransArraySpace3D.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/VCtopology3D.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/VirtualTopology3D.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/asserts.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/debug.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/iPic3D.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/input_array.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/include/phdf5.h">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/inputoutput/Collective.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/inputoutput/ParallelIO.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/inputoutput/Restart3D.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/inputoutput/phdf5.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/main/iPic3Dlib.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/mathlib/EllipticF.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/particles/Particles3D.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/particles/Particles3Dcomm.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/performances/Timing.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/solvers/CG.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/solvers/GMRES.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/utility/asserts.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/utility/debug.cpp">
+			<Option target="iPic3D"/>
+		</Unit>
+		<Unit filename="/home/vadim/iPic3D/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

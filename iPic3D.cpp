@@ -1,6 +1,6 @@
 
 #include <iomanip>
-#include "iPic3D.h"
+#include "include/iPic3D.h"
 
 using namespace iPic3D;
 

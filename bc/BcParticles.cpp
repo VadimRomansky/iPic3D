@@ -1,5 +1,9 @@
 
-#include "BcParticles.h"
+#include <cstdlib>
+#include <cmath>
+#include <math.h>
+#include "../include/BcParticles.h"
+#include "../include/Basic.h"
 
 /** set the boundary VirtualTopology3D3Dcondition  for particle in 2D
   <ul>

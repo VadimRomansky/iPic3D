@@ -6,8 +6,9 @@ developers: Stefano Markidis, Giovanni Lapenta
 #ifndef Basic_H
 #define Basic_H
 
+#include <cmath>
+//#include <math.h>
 #include <iostream>
-#include <math.h>
 
 #include "MPIdata.h"
 #include "EllipticF.h"
@@ -505,9 +506,9 @@ inline void loopX(double *b, double z, double x, double y, double a, double zc, 
   if (err)
     cout << "Err came back :" << err << endl;
 
-  if ( isnan(BRho) )
+  if ( std::isnan(BRho) )
     BRho = 0;
-  if ( isnan(Bz) )
+  if ( std::isnan(Bz) )
     Bz = 0;
 
   double Bx = BRho * cos(phi);
@@ -549,9 +550,9 @@ inline void loopY(double *b, double y, double z, double x, double a, double yc, 
   if (err)
     cout << "Err came back :" << err << endl;
 
-  if ( isnan(BRho) )
+  if ( std::isnan(BRho) )
     BRho = 0;
-  if ( isnan(Bz) )
+  if ( std::isnan(Bz) )
     Bz = 0;
 
   double Bx = BRho * cos(phi);
@@ -593,9 +594,9 @@ inline void loopZ(double *b, double x, double y, double z, double a, double xc, 
   if (err)
     cout << "Err came back :" << err << endl;
 
-  if ( isnan(BRho) )
+  if ( std::isnan(BRho) )
     BRho = 0;
-  if ( isnan(Bz) )
+  if ( std::isnan(Bz) )
     Bz = 0;
 
   double Bx = BRho * cos(phi);
