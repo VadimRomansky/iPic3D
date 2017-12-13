@@ -7,6 +7,8 @@ developers: Stefano Markidis, Giovanni Lapenta
 
 #include <iostream>
 #include <math.h>
+#include "hdf5.h"
+#include <complex>
 
 #include "../include/VirtualTopology3D.h"
 #include "../include/VCtopology3D.h"
@@ -22,9 +24,8 @@ developers: Stefano Markidis, Giovanni Lapenta
 
 #include "../include/Particles3D.h"
 
-
-#include "hdf5.h"
-#include <complex>
+#include "../include/matrix3d.h"
+#include "../include/vector3d.h"
 
 using std::cout;
 using std::cerr;
@@ -804,8 +805,187 @@ int Particles3D::mover_PC_sub(Grid * grid, VirtualTopology3D * vct, Field * EMf)
 
 /** relativistic mover with a Predictor-Corrector scheme */
 int Particles3D::mover_relativistic(Grid * grid, VirtualTopology3D * vct, Field * EMf) {
-  return (0);
+    if (vct->getCartesian_rank() == 0) {
+        cout << "*** MOVER species " << ns << " ***" << NiterMover << " ITERATIONS   ****" << endl;
+    }
+    double start_mover_PC = MPI_Wtime();
+    double weights[2][2][2];
+    double ***Ex = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getEx());
+    double ***Ey = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getEy());
+    double ***Ez = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getEz());
+    double ***Bx = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBx());
+    double ***By = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBy());
+    double ***Bz = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBz());
+
+    double ***Bx_ext = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBx_ext());
+    double ***By_ext = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBy_ext());
+    double ***Bz_ext = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBz_ext());
+
+    double Fext = EMf->getFext();
+
+    // const double dto2 = .5 * dt, qomdt2 = qom * dto2 / c;
+    // don't bother trying to push any particles simultaneously;
+    // MIC already does vectorization automatically, and trying
+    // to do it by hand only hurts performance.
+//#pragma omp parallel for
+//#pragma simd                    // this just slows things down (why?)
+
+    for (long long rest = 0; rest < nop; rest++) {
+        // copy the particle
+        double xp = x[rest];
+        double yp = y[rest];
+        double zp = z[rest];
+        double up = u[rest];
+        double vp = v[rest];
+        double wp = w[rest];
+
+        const double xptilde = x[rest];
+        const double yptilde = y[rest];
+        const double zptilde = z[rest];
+        double uptilde;
+        double vptilde;
+        double wptilde;
+
+        double Exl = 0.0;
+        double Eyl = 0.0;
+        double Ezl = 0.0;
+        double Bxl = 0.0;
+        double Byl = 0.0;
+        double Bzl = 0.0;
+        int ix;
+        int iy;
+        int iz;
+
+        // BEGIN OF SUBCYCLING LOOP
+
+        get_weights(grid, xp, yp, zp, ix, iy, iz, weights);
+        get_Bl(weights, ix, iy, iz, Bxl, Byl, Bzl, Bx, By, Bz, Bx_ext, By_ext, Bz_ext, Fext);
+
+        const double B_mag      = sqrt(Bxl*Bxl+Byl*Byl+Bzl*Bzl);
+        double       dt_sub     = M_PI*c/(4*abs(qom)*B_mag);
+        const int    sub_cycles = int(dt/dt_sub) + 1;
+
+        dt_sub = dt/double(sub_cycles);
+
+        const double dto2 = .5 * dt_sub, qomdt2 = qom * dto2 / c;
+
+        // if (sub_cycles>1) cout << " >> sub_cycles = " << sub_cycles << endl;
+
+        for (int cyc_cnt = 0; cyc_cnt < sub_cycles; cyc_cnt++) {
+
+            // calculate the average velocity iteratively
+            int nit = NiterMover;
+            if (sub_cycles > 2*NiterMover) nit = 1;
+
+            for (int innter = 0; innter < nit; innter++) {
+                // interpolation G-->P
+
+                get_weights(grid, xp, yp, zp, ix, iy, iz, weights);
+                get_Bl(weights, ix, iy, iz, Bxl, Byl, Bzl, Bx, By, Bz, Bx_ext, By_ext, Bz_ext, Fext);
+                get_El(weights, ix, iy, iz, Exl, Eyl, Ezl, Ex, Ey, Ez);
+
+                double velocity2 = up*up + vp*vp + wp*wp;
+                Vector3d velocity = Vector3d(up, vp, wp);
+                double gamma = 1.0/sqrt(1.0 - velocity2);
+                double momentumX = up*gamma;
+                double momentumY = vp*gamma;
+                double momentumZ = wp*gamma;
+
+                double beta = qomdt2;
+
+                double G = beta*(Exl*up + Eyl*yp + Ezl*zp) + gamma;
+                double betaShift = beta/G;
+
+                Vector3d oldE = Vector3d(Exl, Eyl, Ezl);
+                Vector3d oldB = Vector3d(Bxl, Byl, Bzl);
+                Matrix3d rotationTensor = evaluateAlphaRotationTensor(beta, velocity, gamma, oldE, oldB);
+
+                // end interpolation
+                const double omdtsq = qomdt2 * qomdt2 * (Bxl * Bxl + Byl * Byl + Bzl * Bzl);
+                const double denom = 1.0 / (1.0 + omdtsq);
+                // solve the position equation
+                const double ut = up + qomdt2 * Exl;
+                const double vt = vp + qomdt2 * Eyl;
+                const double wt = wp + qomdt2 * Ezl;
+
+                const double momentumXt = momentumX + qomdt2 * Exl;
+                const double momentumYt = momentumY + qomdt2 * Eyl;
+                const double momentumZt = momentumZ + qomdt2 * Ezl;
+
+                const double udotb = ut * Bxl + vt * Byl + wt * Bzl;
+                // solve the velocity equation
+                uptilde = (ut + qomdt2 * (vt * Bzl - wt * Byl + qomdt2 * udotb * Bxl)) * denom;
+                vptilde = (vt + qomdt2 * (wt * Bxl - ut * Bzl + qomdt2 * udotb * Byl)) * denom;
+                wptilde = (wt + qomdt2 * (ut * Byl - vt * Bxl + qomdt2 * udotb * Bzl)) * denom;
+                // update position
+                xp = xptilde + uptilde * dto2;
+                yp = yptilde + vptilde * dto2;
+                zp = zptilde + wptilde * dto2;
+            }                           // end of iteration
+            // update the final position and velocity
+            up = 2.0 * uptilde - u[rest];
+            vp = 2.0 * vptilde - v[rest];
+            wp = 2.0 * wptilde - w[rest];
+            xp = xptilde + uptilde * dt_sub;
+            yp = yptilde + vptilde * dt_sub;
+            zp = zptilde + wptilde * dt_sub;
+            x[rest] = xp;
+            y[rest] = yp;
+            z[rest] = zp;
+            u[rest] = up;
+            v[rest] = vp;
+            w[rest] = wp;
+        } // END  OF SUBCYCLING LOOP
+    }                             // END OF ALL THE PARTICLES
+
+    // ********************//
+    // COMMUNICATION
+    // *******************//
+    // timeTasks.start_communicate();
+    const int avail = communicate(vct);
+    if (avail < 0)
+        return (-1);
+    MPI_Barrier(MPI_COMM_WORLD);
+    // communicate again if particles are not in the correct domain
+    while (isMessagingDone(vct) > 0) {
+        // COMMUNICATION
+        const int avail = communicate(vct);
+        if (avail < 0)
+            return (-1);
+        MPI_Barrier(MPI_COMM_WORLD);
+    }
+    // timeTasks.addto_communicate();
+    return (0);                   // exit succcesfully (hopefully)
 }
+
+Matrix3d Particles3D::evaluateAlphaRotationTensor(double beta, Vector3d& velocity, double& gamma, Vector3d& EField,
+                                                 Vector3d& BField) {
+    Matrix3d result = Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+    double G = ((beta * (EField.scalarMult(velocity))) + gamma);
+    beta = beta / G;
+    double beta2c = beta * beta;
+    double denominator = G * (1 + beta2c * BField.scalarMult(BField));
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            result.matrix[i][j] = KroneckerMatrix.matrix[i][j] + (beta2c * BField[i] * BField[j]);
+            //for (int k = 0; k < 3; ++k) {
+            for (int l = 0; l < 3; ++l) {
+                if (LeviCivita[j][i][l] != 0) {
+                    result.matrix[i][j] -= (beta * LeviCivita[j][i][l] * BField[l]);
+                    //result.matrix[i][j] += (beta * LeviCivita[j][k][l] * Kronecker.matrix[i][k] * BField[l] / speed_of_light_normalized);
+                }
+            }
+            //}
+
+            result.matrix[i][j] /= denominator;
+        }
+    }
+
+    return result;
+}
+
 
 int Particles3D::particle_repopulator(Grid* grid,VirtualTopology3D* vct, Field* EMf, int is){
 

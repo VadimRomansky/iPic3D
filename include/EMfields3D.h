@@ -442,7 +442,9 @@ class EMfields3D                // :public Field
     void updateInfoFields(Grid *grid,VirtualTopology3D *vct,Collective *col);
 
     /* ********************************* // VARIABLES ********************************* */
-  private:
+    void initFluxFromRight(VirtualTopology3D *vct, Grid *grid, Collective *col);
+
+private:
     /*! light speed */
     double c;
     /* 4*PI for normalization */

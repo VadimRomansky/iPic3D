@@ -9,6 +9,8 @@ developers: Stefano Markidis, Enrico Camporeale, Giovanni Lapenta, David Burgess
 
 #include "Particles3Dcomm.h"
 #include "TimeTasks.h"
+#include "matrix3d.h"
+#include "vector3d.h"
 
 /**
  * 
@@ -81,6 +83,7 @@ class Particles3D:public Particles3Dcomm {
     /*! Initiate dist. func. for a single cell form a fluid model (BATSRUS) */
     void MaxwellianFromFluidCell(Grid* grid, Collective *col, int is, int i, int j, int k, int &ip, double *x, double *y, double *z, double *q, double *vx, double *vy, double *vz, unsigned long* ParticleID);
 
+    Matrix3d evaluateAlphaRotationTensor(double beta, Vector3d &velocity, double &gamma, Vector3d &EField, Vector3d &BField);
 };
 
 

@@ -1,0 +1,3 @@
+/home/vadim/iPic3D/CMakeFiles/rebuild_cache.dir
+/home/vadim/iPic3D/CMakeFiles/edit_cache.dir
+/home/vadim/iPic3D/CMakeFiles/iPic3D.dir
