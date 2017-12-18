@@ -84,6 +84,10 @@ class Particles3D:public Particles3Dcomm {
     void MaxwellianFromFluidCell(Grid* grid, Collective *col, int is, int i, int j, int k, int &ip, double *x, double *y, double *z, double *q, double *vx, double *vy, double *vz, unsigned long* ParticleID);
 
     Matrix3d evaluateAlphaRotationTensor(double beta, Vector3d &velocity, double &gamma, Vector3d &EField, Vector3d &BField);
+
+    void relativistic_add_velocity(const double &u0, const double &v0, const double &w0, double &up, double &vp, double &wp);
+
+    Matrix3d evaluateAlphaRotationTensor(Grid * grid, Field * EMf , int rest);
 };
 
 

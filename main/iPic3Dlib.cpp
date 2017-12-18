@@ -258,7 +258,8 @@ bool c_Solver::ParticlesMover() {
   for (int i = 0; i < ns; i++)  // move each species
   {
     // #pragma omp task inout(part[i]) in(grid) target_device(booster)
-    mem_avail = part[i].mover_PC_sub(grid, vct, EMf); // use the Predictor Corrector scheme 
+   // mem_avail = part[i].mover_PC_sub(grid, vct, EMf); // use the Predictor Corrector scheme
+    mem_avail = part[i].mover_relativistic(grid, vct, EMf); // use the Predictor Corrector scheme
   }
   // timeTasks.end(TimeTasks::PARTICLES);
 

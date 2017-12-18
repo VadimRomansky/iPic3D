@@ -24,7 +24,7 @@ B1x = 0.000
 B1y = 0.000
 B1z = 0.000
 
-delta = 0.5
+delta = 0.1
 
 #  %%%%%%%%%%%%%%%%%%% TIME %%%%%%%%%%%%%%%%%%
 dt = 0.5               # dt = time step  
@@ -72,9 +72,9 @@ npcelz          = 1    1             # Particles per cell in Z
 NpMaxNpRatio    = 3.0                # Maximum number of particles allocated
 
 qom             = -16.0  1.0        # Charge/mass ratio
-uth             = 0.045   0.0063     # Thermal velocity in X
-vth             = 0.045   0.0063     # Thermal velocity in Y
-wth             = 0.045   0.0063     # Thermal velocity in Z
+uth             = 0.004   0.001     # Thermal velocity in X
+vth             = 0.004   0.001     # Thermal velocity in Y
+wth             = 0.004   0.001     # Thermal velocity in Z
 u0              = -0.995     -0.995        # Drift velocity in X
 v0              = 0.0     0.0        # Drift velocity in X
 w0              = 0.0 	0.0   # Drift velocity in X

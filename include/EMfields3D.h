@@ -24,6 +24,7 @@
 #include "TimeTasks.h"
 #include "asserts.h"
 #include "BCStructure.h"
+#include "matrix3d.h"
 
 using std::cout;
 using std::cerr;
@@ -604,6 +605,9 @@ private:
     /*! External current field component-Z, defined on nodes */
     double***  Jz_ext;
 
+    Matrix3d ***Mu;
+    Matrix3d ****Mus;
+
     double Fext;
 
     /*! SPECIES: pressure tensor component-XX, defined on nodes */
@@ -688,6 +692,7 @@ private:
     void BoundaryConditionsE(double ***vectorX, double ***vectorY, double ***vectorZ,int nx, int ny, int nz,Grid *grid, VirtualTopology3D *vct);
     void BoundaryConditionsEImage(double ***imageX, double ***imageY, double ***imageZ,double ***vectorX, double ***vectorY, double ***vectorZ,int nx, int ny, int nz, VirtualTopology3D *vct,Grid *grid);
 
+    void sumOverSpeciesMu();
 };
 
 typedef EMfields3D Field;

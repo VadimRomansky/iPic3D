@@ -227,15 +227,16 @@ void Particles3D::MaxwellianFromFields(Grid * grid, Field * EMf, VirtualTopology
               prob = sqrt(-2.0 * log(1.0 - .999999 * harvest));
               harvest = rand() / (double) RAND_MAX;
               theta = 2.0 * M_PI * harvest;
-              u[counter] = vec[0] + uth * prob * cos(theta);
+              u[counter] = uth * prob * cos(theta);
               // v
-              v[counter] = vec[1] + vth * prob * sin(theta);
+              v[counter] = vth * prob * sin(theta);
               // w
               harvest = rand() / (double) RAND_MAX;
               prob = sqrt(-2.0 * log(1.0 - .999999 * harvest));
               harvest = rand() / (double) RAND_MAX;
               theta = 2.0 * M_PI * harvest;
-              w[counter] = vec[2] + wth * prob * cos(theta);
+              w[counter] = wth * prob * cos(theta);
+                relativistic_add_velocity(vec[0], vec[1], vec[2], u[counter], v[counter], w[counter]);
               if (TrackParticleID)
                 ParticleID[counter] = counter * (unsigned long) pow(10.0, BirthRank[1]) + BirthRank[0];
 
@@ -256,39 +257,48 @@ void Particles3D::maxwellian(Grid * grid, Field * EMf, VirtualTopology3D * vct) 
   double harvest;
   double prob, theta, sign;
   long long counter = 0;
-  for (int i = 1; i < grid->getNXC() - 1; i++)
-    for (int j = 1; j < grid->getNYC() - 1; j++)
-      for (int k = 1; k < grid->getNZC() - 1; k++)
-        for (int ii = 0; ii < npcelx; ii++)
-          for (int jj = 0; jj < npcely; jj++)
-            for (int kk = 0; kk < npcelz; kk++) {
-              x[counter] = (ii + .5) * (dx / npcelx) + grid->getXN(i, j, k);  // x[i] = xstart + (xend-xstart)/2.0 + harvest1*((xend-xstart)/4.0)*cos(harvest2*2.0*M_PI);
-              y[counter] = (jj + .5) * (dy / npcely) + grid->getYN(i, j, k);
-              z[counter] = (kk + .5) * (dz / npcelz) + grid->getZN(i, j, k);
-              // q = charge
-              q[counter] = (qom / fabs(qom)) * (fabs(EMf->getRHOcs(i, j, k, ns)) / npcel) * (1.0 / grid->getInvVOL());
-              // u
-              harvest = rand() / (double) RAND_MAX;
-              prob = sqrt(-2.0 * log(1.0 - .999999 * harvest));
-              harvest = rand() / (double) RAND_MAX;
-              theta = 2.0 * M_PI * harvest;
-              u[counter] = u0 + uth * prob * cos(theta);
-              // v
-              v[counter] = v0 + vth * prob * sin(theta);
-              // w
-              harvest = rand() / (double) RAND_MAX;
-              prob = sqrt(-2.0 * log(1.0 - .999999 * harvest));
-              harvest = rand() / (double) RAND_MAX;
-              theta = 2.0 * M_PI * harvest;
-              w[counter] = w0 + wth * prob * cos(theta);
-              if (TrackParticleID)
-                ParticleID[counter] = counter * (unsigned long) pow(10.0, BirthRank[1]) + BirthRank[0];
+  for (int i = 1; i < grid->getNXC() - 1; i++) {
+      for (int j = 1; j < grid->getNYC() - 1; j++) {
+          for (int k = 1; k < grid->getNZC() - 1; k++) {
+              for (int ii = 0; ii < npcelx; ii++) {
+                  for (int jj = 0; jj < npcely; jj++) {
+                      for (int kk = 0; kk < npcelz; kk++) {
+                          x[counter] = (ii + .5) * (dx / npcelx) + grid->getXN(i, j,
+                                                                               k);  // x[i] = xstart + (xend-xstart)/2.0 + harvest1*((xend-xstart)/4.0)*cos(harvest2*2.0*M_PI);
+                          y[counter] = (jj + .5) * (dy / npcely) + grid->getYN(i, j, k);
+                          z[counter] = (kk + .5) * (dz / npcelz) + grid->getZN(i, j, k);
+                          // q = charge
+                          q[counter] =
+                                  (qom / fabs(qom)) * (fabs(EMf->getRHOcs(i, j, k, ns)) / npcel) *
+                                  (1.0 / grid->getInvVOL());
+                          // u
+                          harvest = rand() / (double) RAND_MAX;
+                          prob = sqrt(-2.0 * log(1.0 - .999999 * harvest));
+                          harvest = rand() / (double) RAND_MAX;
+                          theta = 2.0 * M_PI * harvest;
+                          u[counter] = uth * prob * cos(theta);
+                          // v
+                          v[counter] = vth * prob * sin(theta);
+                          // w
+                          harvest = rand() / (double) RAND_MAX;
+                          prob = sqrt(-2.0 * log(1.0 - .999999 * harvest));
+                          harvest = rand() / (double) RAND_MAX;
+                          theta = 2.0 * M_PI * harvest;
+                          w[counter] = wth * prob * cos(theta);
 
+                          relativistic_add_velocity(u0, v0, w0, u[counter], v[counter], w[counter]);
 
-              counter++;
-            }
+                          if (TrackParticleID) {
+                              ParticleID[counter] = counter * (unsigned long) pow(10.0, BirthRank[1]) + BirthRank[0];
+                          }
 
-
+                          counter++;
+                      }
+                  }
+              }
+          }
+      }
+  }
 }
 
 /** Force Free initialization (JxB=0) for particles */
@@ -867,15 +877,60 @@ int Particles3D::mover_relativistic(Grid * grid, VirtualTopology3D * vct, Field 
 
         dt_sub = dt/double(sub_cycles);
 
-        const double dto2 = .5 * dt_sub, qomdt2 = qom * dto2 / c;
+        const double dto2 = .5 * dt_sub;
+        const double qomdt2 = qom * dto2 / c;
+        const double qomdt = qom * dt_sub / c;
+
 
         // if (sub_cycles>1) cout << " >> sub_cycles = " << sub_cycles << endl;
+        double beta = qomdt2;
+        Vector3d vmean;
+        double velocity2 = up*up + vp*vp + wp*wp;
+        Vector3d velocity = Vector3d(up, vp, wp);
+        if(velocity2 > 1){
+            printf("aaa");
+        }
 
-        for (int cyc_cnt = 0; cyc_cnt < sub_cycles; cyc_cnt++) {
+        double gamma = 1.0/sqrt(1.0 - velocity2);
+        double momentumX = up*gamma;
+        double momentumY = vp*gamma;
+        double momentumZ = wp*gamma;
+
+        double momentumXt;
+        double momentumYt;
+        double momentumZt;
+
+        double vBx = vp * Bzl - wp * Byl;
+        double vBy = wp * Bxl - up * Bzl;
+        double vBz = up * Byl - vp * Bxl;
+
+        momentumXt = momentumX + qomdt * (Exl + vBx);
+        momentumYt = momentumY + qomdt * (Eyl + vBy);
+        momentumZt = momentumZ + qomdt * (Ezl + vBz);
+
+        xp = xp + up * dt;
+        yp = yp + vp * dt;
+        zp = zp + wp * dt;
+
+        double p2 = momentumX*momentumX + momentumY*momentumY + momentumZ*momentumZ;
+        gamma = sqrt(1.0 + p2);
+        up = momentumX/gamma;
+        vp = momentumY/gamma;
+        wp = momentumZ/gamma;
+
+        x[rest] = xp;
+        y[rest] = yp;
+        z[rest] = zp;
+        u[rest] = up;
+        v[rest] = vp;
+        w[rest] = wp;
+
+        /*for (int cyc_cnt = 0; cyc_cnt < sub_cycles; cyc_cnt++) {
 
             // calculate the average velocity iteratively
             int nit = NiterMover;
             if (sub_cycles > 2*NiterMover) nit = 1;
+
 
             for (int innter = 0; innter < nit; innter++) {
                 // interpolation G-->P
@@ -884,51 +939,64 @@ int Particles3D::mover_relativistic(Grid * grid, VirtualTopology3D * vct, Field 
                 get_Bl(weights, ix, iy, iz, Bxl, Byl, Bzl, Bx, By, Bz, Bx_ext, By_ext, Bz_ext, Fext);
                 get_El(weights, ix, iy, iz, Exl, Eyl, Ezl, Ex, Ey, Ez);
 
-                double velocity2 = up*up + vp*vp + wp*wp;
-                Vector3d velocity = Vector3d(up, vp, wp);
-                double gamma = 1.0/sqrt(1.0 - velocity2);
-                double momentumX = up*gamma;
-                double momentumY = vp*gamma;
-                double momentumZ = wp*gamma;
+                //double gamma = 1.0/sqrt(1.0 - velocity2);
+                //double momentumX = up*gamma;
+                //double momentumY = vp*gamma;
+                //double momentumZ = wp*gamma;
 
-                double beta = qomdt2;
-
-                double G = beta*(Exl*up + Eyl*yp + Ezl*zp) + gamma;
+                double G = beta*(Exl*up + Eyl*vp + Ezl*wp) + gamma;
                 double betaShift = beta/G;
 
                 Vector3d oldE = Vector3d(Exl, Eyl, Ezl);
                 Vector3d oldB = Vector3d(Bxl, Byl, Bzl);
                 Matrix3d rotationTensor = evaluateAlphaRotationTensor(beta, velocity, gamma, oldE, oldB);
-
+                Vector3d vhat = (rotationTensor*velocity)*gamma;
+                vmean = vhat + (rotationTensor*oldE*beta);
                 // end interpolation
                 const double omdtsq = qomdt2 * qomdt2 * (Bxl * Bxl + Byl * Byl + Bzl * Bzl);
                 const double denom = 1.0 / (1.0 + omdtsq);
                 // solve the position equation
-                const double ut = up + qomdt2 * Exl;
-                const double vt = vp + qomdt2 * Eyl;
-                const double wt = wp + qomdt2 * Ezl;
+                //const double ut = up + qomdt2 * Exl;
+                //const double vt = vp + qomdt2 * Eyl;
+                //const double wt = wp + qomdt2 * Ezl;
 
-                const double momentumXt = momentumX + qomdt2 * Exl;
-                const double momentumYt = momentumY + qomdt2 * Eyl;
-                const double momentumZt = momentumZ + qomdt2 * Ezl;
+                double vBx = vmean.y * Bzl - vmean.z * Byl;
+                double vBy = vmean.z * Bxl - vmean.x * Bzl;
+                double vBz = vmean.x * Byl - vmean.y * Bxl;
 
-                const double udotb = ut * Bxl + vt * Byl + wt * Bzl;
+                momentumXt = momentumX + qomdt * (Exl + vBx);
+                momentumYt = momentumY + qomdt * (Eyl + vBy);
+                momentumZt = momentumZ + qomdt * (Ezl + vBz);
+
+                //const double udotb = ut * Bxl + vt * Byl + wt * Bzl;
                 // solve the velocity equation
-                uptilde = (ut + qomdt2 * (vt * Bzl - wt * Byl + qomdt2 * udotb * Bxl)) * denom;
-                vptilde = (vt + qomdt2 * (wt * Bxl - ut * Bzl + qomdt2 * udotb * Byl)) * denom;
-                wptilde = (wt + qomdt2 * (ut * Byl - vt * Bxl + qomdt2 * udotb * Bzl)) * denom;
+                //uptilde = (ut + qomdt2 * (vt * Bzl - wt * Byl + qomdt2 * udotb * Bxl)) * denom;
+                //vptilde = (vt + qomdt2 * (wt * Bxl - ut * Bzl + qomdt2 * udotb * Byl)) * denom;
+                //wptilde = (wt + qomdt2 * (ut * Byl - vt * Bxl + qomdt2 * udotb * Bzl)) * denom;
                 // update position
-                xp = xptilde + uptilde * dto2;
-                yp = yptilde + vptilde * dto2;
-                zp = zptilde + wptilde * dto2;
+                xp = xptilde + vmean.x * dto2;
+                yp = yptilde + vmean.y * dto2;
+                zp = zptilde + vmean.z * dto2;
             }                           // end of iteration
             // update the final position and velocity
-            up = 2.0 * uptilde - u[rest];
-            vp = 2.0 * vptilde - v[rest];
-            wp = 2.0 * wptilde - w[rest];
-            xp = xptilde + uptilde * dt_sub;
-            yp = yptilde + vptilde * dt_sub;
-            zp = zptilde + wptilde * dt_sub;
+
+            momentumX = momentumXt;
+            momentumY = momentumYt;
+            momentumZ = momentumZt;
+
+            double p2 = momentumX*momentumX + momentumY*momentumY + momentumZ*momentumZ;
+            gamma = sqrt(1.0 + p2);
+            up = momentumX/gamma;
+            vp = momentumY/gamma;
+            wp = momentumZ/gamma;
+            velocity2 = up*up + vp*vp + wp*wp;
+            if(velocity2 > 1){
+                printf("aaa");
+            }
+
+            xp = xptilde + vmean.x * dto2;
+            yp = yptilde + vmean.y * dto2;
+            zp = zptilde + vmean.z * dto2;
             x[rest] = xp;
             y[rest] = yp;
             z[rest] = zp;
@@ -936,6 +1004,7 @@ int Particles3D::mover_relativistic(Grid * grid, VirtualTopology3D * vct, Field 
             v[rest] = vp;
             w[rest] = wp;
         } // END  OF SUBCYCLING LOOP
+         */
     }                             // END OF ALL THE PARTICLES
 
     // ********************//
@@ -984,6 +1053,56 @@ Matrix3d Particles3D::evaluateAlphaRotationTensor(double beta, Vector3d& velocit
     }
 
     return result;
+}
+
+Matrix3d Particles3D::evaluateAlphaRotationTensor(Grid * grid, Field * EMf, int rest) {
+    Matrix3d result = Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0);
+    const double dto2 = .5 * dt;
+    const double qomdt2 = qom * dto2 / c;
+    const double qomdt = qom * dt / c;
+
+
+    // if (sub_cycles>1) cout << " >> sub_cycles = " << sub_cycles << endl;
+    double beta = qomdt2;
+    Vector3d vmean;
+    double velocity2 = u[rest]*u[rest] + v[rest]*v[rest] + w[rest]*w[rest];
+    Vector3d velocity = Vector3d(u[rest], v[rest], w[rest]);
+    if(velocity2 > 1){
+        printf("aaa");
+    }
+
+    double gamma = 1.0/sqrt(1.0 - velocity2);
+
+    double Exl = 0.0;
+    double Eyl = 0.0;
+    double Ezl = 0.0;
+    double Bxl = 0.0;
+    double Byl = 0.0;
+    double Bzl = 0.0;
+    int ix;
+    int iy;
+    int iz;
+
+    double weights[2][2][2];
+    double ***Ex = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getEx());
+    double ***Ey = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getEy());
+    double ***Ez = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getEz());
+    double ***Bx = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBx());
+    double ***By = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBy());
+    double ***Bz = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBz());
+    double ***Bx_ext = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBx_ext());
+    double ***By_ext = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBy_ext());
+    double ***Bz_ext = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBz_ext());
+    double Fext = EMf->getFext();
+
+    get_weights(grid, x[rest], y[rest], z[rest], ix, iy, iz, weights);
+    get_Bl(weights, ix, iy, iz, Bxl, Byl, Bzl, Bx, By, Bz, Bx_ext, By_ext, Bz_ext, Fext);
+    get_El(weights, ix, iy, iz, Exl, Eyl, Ezl, Ex, Ey, Ez);
+
+    Vector3d oldE = Vector3d(Exl, Eyl, Ezl);
+    Vector3d oldB = Vector3d(Bxl, Byl, Bzl);
+
+    return evaluateAlphaRotationTensor(beta, velocity, gamma, oldE, oldB);
 }
 
 
@@ -1672,5 +1791,34 @@ double Particles3D::deleteParticlesInsideSphere(double R, double x_center, doubl
   }
   nop = nplast +1;
   return(Q_removed);
+}
+
+void Particles3D::relativistic_add_velocity(const double &u0, const double &v0, const double &w0, double &up, double &vp,
+                                            double &wp) {
+    Vector3d v = Vector3d(u0, v0, w0);
+    Vector3d vpart = Vector3d(up, vp, wp);
+    Matrix3d* rotation = Matrix3d::createBasisByOneVector(v);
+    Matrix3d* inverse = rotation->Inverse();
+
+    Vector3d rotatedV = (*inverse) * vpart;
+
+    double gamma = 1 / (sqrt(1 - v.scalarMult(v)));
+    double vnorm = v.norm();
+    double denominator = 1 + vnorm * rotatedV.z;
+
+    Vector3d shiftedV;
+
+    shiftedV.z = (vnorm + rotatedV.z) / (denominator);
+    shiftedV.y = rotatedV.y / (gamma * denominator);
+    shiftedV.x = rotatedV.x / (gamma * denominator);
+
+    Vector3d vel1 = (*rotation) * shiftedV;
+
+    up = vel1.x;
+    vp = vel1.y;
+    wp = vel1.z;
+
+    delete rotation;
+    delete inverse;
 }
 
