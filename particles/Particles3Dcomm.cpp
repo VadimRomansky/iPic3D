@@ -21,6 +21,8 @@ developers: Stefano Markidis, Giovanni Lapenta.
 #include "../include/Grid3DCU.h"
 #include "../include/Field.h"
 #include "../include/MPIdata.h"
+#include "../include/vector3d.h"
+#include "../include/matrix3d.h"
 
 #include "../include/Particles3Dcomm.h"
 
@@ -524,6 +526,12 @@ void Particles3Dcomm::interpP2G(Field * EMf, Grid * grid, VirtualTopology3D * vc
           for (int kk = 0; kk < 2; kk++)
             temp[ii][jj][kk] = w[i] * w[i] * weight[ii][jj][kk];
       EMf->addPzz(temp, ix, iy, iz, ns);
+      for (int ii = 0; ii < 2; ii++)
+        for (int jj = 0; jj < 2; jj++)
+          for (int kk = 0; kk < 2; kk++){
+            Matrix3d tensor = evaluateAlphaRotationTensor(grid, EMf, i)*(-2.0*M_PI*qom*dt*dt*EMf->getTheta()* weight[ii][jj][kk]);
+            EMf->addMu(tensor, ix, iy, iz, ii, jj, kk, ns);
+          }
     }
     // change this to allow more parallelization after implementing array class
     //#pragma omp critical
@@ -1139,4 +1147,38 @@ void Particles3Dcomm::PrintNp(VirtualTopology3D * ptVCT)  const {
   cout << "Number of Particles of species " << ns << ": " << nop << endl;
   cout << "Subgrid (" << ptVCT->getCoordinates(0) << "," << ptVCT->getCoordinates(1) << "," << ptVCT->getCoordinates(2) << ")" << endl;
   cout << endl;
+}
+
+Matrix3d Particles3Dcomm::evaluateAlphaRotationTensor(double beta, Vector3d& velocity, double& gamma, Vector3d& EField,
+                                                  Vector3d& BField) {
+  Matrix3d result = Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+  double G = ((beta * (EField.scalarMult(velocity))) + gamma);
+  beta = beta / G;
+  double beta2c = beta * beta;
+  double denominator = G * (1 + beta2c * BField.scalarMult(BField));
+
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      result.matrix[i][j] = KroneckerMatrix.matrix[i][j] + (beta2c * BField[i] * BField[j]);
+      //for (int k = 0; k < 3; ++k) {
+      for (int l = 0; l < 3; ++l) {
+        if (LeviCivita[j][i][l] != 0) {
+          result.matrix[i][j] -= (beta * LeviCivita[j][i][l] * BField[l]);
+          //result.matrix[i][j] += (beta * LeviCivita[j][k][l] * Kronecker.matrix[i][k] * BField[l] / speed_of_light_normalized);
+        }
+      }
+      //}
+
+      result.matrix[i][j] /= denominator;
+    }
+  }
+
+  return result;
+}
+
+Matrix3d Particles3Dcomm::evaluateAlphaRotationTensor(Grid * grid, Field * EMf, int rest) {
+  Matrix3d result = Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+  return result;
 }

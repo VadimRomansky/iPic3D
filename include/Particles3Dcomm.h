@@ -171,6 +171,8 @@ public:
   /** Add distributions in this iteration to the total */
   void Add_vDist3D();
   void Write_vDist3D(string SaveDirName);
+  Matrix3d evaluateAlphaRotationTensor(double beta, Vector3d &velocity, double &gamma, Vector3d &EField, Vector3d &BField);
+    Matrix3d evaluateAlphaRotationTensor(Grid * grid, Field * EMf , int rest);
 
 protected:
   /** number of species */

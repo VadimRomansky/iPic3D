@@ -1028,7 +1028,7 @@ int Particles3D::mover_relativistic(Grid * grid, VirtualTopology3D * vct, Field 
 }
 
 Matrix3d Particles3D::evaluateAlphaRotationTensor(double beta, Vector3d& velocity, double& gamma, Vector3d& EField,
-                                                 Vector3d& BField) {
+                                                  Vector3d& BField) {
     Matrix3d result = Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0);
 
     double G = ((beta * (EField.scalarMult(velocity))) + gamma);

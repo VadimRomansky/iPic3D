@@ -1,2 +1,0 @@
-Options: 
-CMake: 3.8.2@/home/vadim/clion/bin/cmake/bin/cmake

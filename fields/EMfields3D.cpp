@@ -1313,6 +1313,12 @@ void EMfields3D::addJz(double weight[][2][2], int X, int Y, int Z, int is) {
                 Jzs[is][X - i][Y - j][Z - k] += weight[i][j][k] * invVOL;
 }
 
+
+/*! add mu*/
+void EMfields3D::addMu(Matrix3d tensor, int X, int Y, int Z, int i, int j, int k, int is) {
+    Mus[is][X - i][Y - j][Z - k] += tensor * invVOL;
+}
+
 /*! add an amount of pressure density - direction XX to current density field on the node */
 void EMfields3D::addPxx(double weight[][2][2], int X, int Y, int Z, int is) {
     for (int i = 0; i < 2; i++)
@@ -4130,4 +4136,8 @@ EMfields3D::~EMfields3D() {
     delArr3(vectY, nxn, nyn);
     delArr3(vectZ, nxn, nyn);
     delArr3(divC, nxc, nyc);
+}
+
+double EMfields3D::getTheta() {
+    return th;
 }

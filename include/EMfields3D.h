@@ -445,6 +445,8 @@ class EMfields3D                // :public Field
     /* ********************************* // VARIABLES ********************************* */
     void initFluxFromRight(VirtualTopology3D *vct, Grid *grid, Collective *col);
 
+    double getTheta();
+
 private:
     /*! light speed */
     double c;
