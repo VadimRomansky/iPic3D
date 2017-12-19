@@ -526,7 +526,7 @@ void Particles3Dcomm::interpP2G(Field * EMf, Grid * grid, VirtualTopology3D * vc
           for (int kk = 0; kk < 2; kk++)
             temp[ii][jj][kk] = w[i] * w[i] * weight[ii][jj][kk];
       EMf->addPzz(temp, ix, iy, iz, ns);
-        Matrix3d tensor = evaluateAlphaRotationTensor(grid, EMf, i)*(-2.0*M_PI*qom*dt*dt*EMf->getTheta());
+        Matrix3d tensor = evaluateAlphaRotationTensor(grid, EMf, i)*(2.0*M_PI*qom*q[i]*dt*dt*EMf->getTheta());
       for (int ii = 0; ii < 2; ii++)
         for (int jj = 0; jj < 2; jj++)
           for (int kk = 0; kk < 2; kk++){

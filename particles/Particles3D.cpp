@@ -797,7 +797,8 @@ int Particles3D::mover_relativistic(Grid * grid, VirtualTopology3D * vct, Field 
 
         const double B_mag      = sqrt(Bxl*Bxl+Byl*Byl+Bzl*Bzl);
         double       dt_sub     = M_PI*c/(4*abs(qom)*B_mag);
-        const int    sub_cycles = int(dt/dt_sub) + 1;
+        int    sub_cycles = int(dt/dt_sub) + 1;
+      sub_cycles = 1;
 
         dt_sub = dt/double(sub_cycles);
 
@@ -869,7 +870,6 @@ int Particles3D::mover_relativistic(Grid * grid, VirtualTopology3D * vct, Field 
                 //double momentumZ = wp*gamma;
 
                 double G = beta*(Exl*up + Eyl*vp + Ezl*wp) + gamma;
-                double betaShift = beta/G;
 
                 Vector3d oldE = Vector3d(Exl, Eyl, Ezl);
                 Vector3d oldB = Vector3d(Bxl, Byl, Bzl);
@@ -877,8 +877,6 @@ int Particles3D::mover_relativistic(Grid * grid, VirtualTopology3D * vct, Field 
                 Vector3d vhat = (rotationTensor*velocity)*gamma;
                 vmean = vhat + (rotationTensor*oldE*beta);
                 // end interpolation
-                const double omdtsq = qomdt2 * qomdt2 * (Bxl * Bxl + Byl * Byl + Bzl * Bzl);
-                const double denom = 1.0 / (1.0 + omdtsq);
                 // solve the position equation
                 //const double ut = up + qomdt2 * Exl;
                 //const double vt = vp + qomdt2 * Eyl;
@@ -913,9 +911,10 @@ int Particles3D::mover_relativistic(Grid * grid, VirtualTopology3D * vct, Field 
             up = momentumX/gamma;
             vp = momentumY/gamma;
             wp = momentumZ/gamma;
+            velocity = Vector3d(up, vp, wp);
             velocity2 = up*up + vp*vp + wp*wp;
             if(velocity2 > 1){
-                printf("aaa");
+                printf("v > c in relativistic mover subcycle\n");
             }
 
             xp = xptilde + vmean.x * dto2;
