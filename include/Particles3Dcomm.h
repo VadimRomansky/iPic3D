@@ -171,8 +171,12 @@ public:
   /** Add distributions in this iteration to the total */
   void Add_vDist3D();
   void Write_vDist3D(string SaveDirName);
+
+    void get_Bl(const double weights[2][2][2], int ix, int iy, int iz, double& Bxl, double& Byl, double& Bzl, double*** Bx, double*** By, double*** Bz, double*** Bx_ext, double*** By_ext, double*** Bz_ext, double Fext);
+    void get_El(const double weights[2][2][2], int ix, int iy, int iz, double& Exl, double& Eyl, double& Ezl, double*** Ex, double*** Ey, double*** Ez);
+    void get_weights(Grid * grid, double xp, double yp, double zp, int& ix, int& iy, int& iz, double weights[2][2][2]);
   Matrix3d evaluateAlphaRotationTensor(double beta, Vector3d &velocity, double &gamma, Vector3d &EField, Vector3d &BField);
-    Matrix3d evaluateAlphaRotationTensor(Grid * grid, Field * EMf , int rest);
+  Matrix3d evaluateAlphaRotationTensor(Grid * grid, Field * EMf , int rest);
 
 protected:
   /** number of species */

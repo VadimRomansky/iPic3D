@@ -526,11 +526,11 @@ void Particles3Dcomm::interpP2G(Field * EMf, Grid * grid, VirtualTopology3D * vc
           for (int kk = 0; kk < 2; kk++)
             temp[ii][jj][kk] = w[i] * w[i] * weight[ii][jj][kk];
       EMf->addPzz(temp, ix, iy, iz, ns);
+        Matrix3d tensor = evaluateAlphaRotationTensor(grid, EMf, i)*(-2.0*M_PI*qom*dt*dt*EMf->getTheta());
       for (int ii = 0; ii < 2; ii++)
         for (int jj = 0; jj < 2; jj++)
           for (int kk = 0; kk < 2; kk++){
-            Matrix3d tensor = evaluateAlphaRotationTensor(grid, EMf, i)*(-2.0*M_PI*qom*dt*dt*EMf->getTheta()* weight[ii][jj][kk]);
-            EMf->addMu(tensor, ix, iy, iz, ii, jj, kk, ns);
+              EMf->addMu(tensor, ix, iy, iz, ii, jj, kk, ns, weight[ii][jj][kk]);
           }
     }
     // change this to allow more parallelization after implementing array class
@@ -1075,7 +1075,7 @@ double Particles3Dcomm::getKe() {
   for (register long long i = 0; i < nop; i++) {
       double v2 = u[i] * u[i] + v[i] * v[i] + w[i] * w[i];
       if(v2 > 1){
-          printf("aaaa");
+          printf("v > c in get Ke\n");
       }
       double gamma = 1.0 / sqrt(1.0 - v2);
       //localKe += .5 * (q[i] / qom) * (u[i] * u[i] + v[i] * v[i] + w[i] * w[i]);
@@ -1149,7 +1149,7 @@ void Particles3Dcomm::PrintNp(VirtualTopology3D * ptVCT)  const {
   cout << endl;
 }
 
-Matrix3d Particles3Dcomm::evaluateAlphaRotationTensor(double beta, Vector3d& velocity, double& gamma, Vector3d& EField,
+/*Matrix3d Particles3Dcomm::evaluateAlphaRotationTensor(double beta, Vector3d& velocity, double& gamma, Vector3d& EField,
                                                   Vector3d& BField) {
   Matrix3d result = Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0);
 
@@ -1175,10 +1175,158 @@ Matrix3d Particles3Dcomm::evaluateAlphaRotationTensor(double beta, Vector3d& vel
   }
 
   return result;
+}*/
+
+void Particles3Dcomm::get_weights(Grid * grid, double xp, double yp, double zp, int& ix, int& iy, int& iz, double weights[2][2][2]){
+
+    const double inv_dx = 1.0 / dx, inv_dy = 1.0 / dy, inv_dz = 1.0 / dz;
+    const double ixd = floor((xp - xstart) * inv_dx);
+    const double iyd = floor((yp - ystart) * inv_dy);
+    const double izd = floor((zp - zstart) * inv_dz);
+
+    ix = 2 + int (ixd);
+    iy = 2 + int (iyd);
+    iz = 2 + int (izd);
+
+    if (ix < 1)
+        ix = 1;
+    if (iy < 1)
+        iy = 1;
+    if (iz < 1)
+        iz = 1;
+    if (ix > nxn - 1)
+        ix = nxn - 1;
+    if (iy > nyn - 1)
+        iy = nyn - 1;
+    if (iz > nzn - 1)
+        iz = nzn - 1;
+
+    double xi  [2];
+    double eta [2];
+    double zeta[2];
+
+    xi  [0] = xp - grid->getXN(ix-1,iy  ,iz  );
+    eta [0] = yp - grid->getYN(ix  ,iy-1,iz  );
+    zeta[0] = zp - grid->getZN(ix  ,iy  ,iz-1);
+    xi  [1] = grid->getXN(ix,iy,iz) - xp;
+    eta [1] = grid->getYN(ix,iy,iz) - yp;
+    zeta[1] = grid->getZN(ix,iy,iz) - zp;
+
+    for (int ii = 0; ii < 2; ii++)
+        for (int jj = 0; jj < 2; jj++)
+            for (int kk = 0; kk < 2; kk++)
+                weights[ii][jj][kk] = xi[ii] * eta[jj] * zeta[kk] * invVOL;
+}
+
+void Particles3Dcomm::get_El(const double weights[2][2][2], int ix, int iy, int iz, double& Exl, double& Eyl, double& Ezl, double*** Ex, double*** Ey, double*** Ez){
+
+    Exl = 0.0;
+    Eyl = 0.0;
+    Ezl = 0.0;
+
+    int l = 0;
+    for (int i=0; i<=1; i++)
+        for (int j=0; j<=1; j++)
+            for (int k=0; k<=1; k++) {
+                Exl += weights[i][j][k] * Ex[ix-i][iy-j][iz-k];
+                Eyl += weights[i][j][k] * Ey[ix-i][iy-j][iz-k];
+                Ezl += weights[i][j][k] * Ez[ix-i][iy-j][iz-k];
+                l = l + 1;
+            }
+
+}
+
+void Particles3Dcomm::get_Bl(const double weights[2][2][2], int ix, int iy, int iz, double& Bxl, double& Byl, double& Bzl, double*** Bx, double*** By, double*** Bz, double*** Bx_ext, double*** By_ext, double*** Bz_ext, double Fext){
+
+    Bxl = 0.0;
+    Byl = 0.0;
+    Bzl = 0.0;
+
+    int l = 0;
+    for (int i=0; i<=1; i++)
+        for (int j=0; j<=1; j++)
+            for (int k=0; k<=1; k++) {
+                Bxl += weights[i][j][k] * (Bx[ix-i][iy-j][iz-k] + Fext*Bx_ext[ix-i][iy-j][iz-k]);
+                Byl += weights[i][j][k] * (By[ix-i][iy-j][iz-k] + Fext*By_ext[ix-i][iy-j][iz-k]);
+                Bzl += weights[i][j][k] * (Bz[ix-i][iy-j][iz-k] + Fext*Bz_ext[ix-i][iy-j][iz-k]);
+                l = l + 1;
+            }
+}
+
+Matrix3d Particles3Dcomm::evaluateAlphaRotationTensor(double beta, Vector3d& velocity, double& gamma, Vector3d& EField,
+                                                  Vector3d& BField) {
+    Matrix3d result = Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+    double G = ((beta * (EField.scalarMult(velocity))) + gamma);
+    beta = beta / G;
+    double beta2c = beta * beta;
+    double denominator = G * (1 + beta2c * BField.scalarMult(BField));
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            result.matrix[i][j] = KroneckerMatrix.matrix[i][j] + (beta2c * BField[i] * BField[j]);
+            //for (int k = 0; k < 3; ++k) {
+            for (int l = 0; l < 3; ++l) {
+                if (LeviCivita[j][i][l] != 0) {
+                    result.matrix[i][j] -= (beta * LeviCivita[j][i][l] * BField[l]);
+                    //result.matrix[i][j] += (beta * LeviCivita[j][k][l] * Kronecker.matrix[i][k] * BField[l] / speed_of_light_normalized);
+                }
+            }
+            //}
+
+            result.matrix[i][j] /= denominator;
+        }
+    }
+
+    return result;
 }
 
 Matrix3d Particles3Dcomm::evaluateAlphaRotationTensor(Grid * grid, Field * EMf, int rest) {
-  Matrix3d result = Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0);
+    Matrix3d result = Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0);
+    const double dto2 = .5 * dt;
+    const double qomdt2 = qom * dto2 / c;
+    const double qomdt = qom * dt / c;
 
-  return result;
+
+    // if (sub_cycles>1) cout << " >> sub_cycles = " << sub_cycles << endl;
+    double beta = qomdt2;
+    Vector3d vmean;
+    double velocity2 = u[rest]*u[rest] + v[rest]*v[rest] + w[rest]*w[rest];
+    Vector3d velocity = Vector3d(u[rest], v[rest], w[rest]);
+    if(velocity2 > 1){
+        printf("v > c in evaluate alpha rotation tensor\n");
+    }
+
+    double gamma = 1.0/sqrt(1.0 - velocity2);
+
+    double Exl = 0.0;
+    double Eyl = 0.0;
+    double Ezl = 0.0;
+    double Bxl = 0.0;
+    double Byl = 0.0;
+    double Bzl = 0.0;
+    int ix;
+    int iy;
+    int iz;
+
+    double weights[2][2][2];
+    double ***Ex = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getEx());
+    double ***Ey = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getEy());
+    double ***Ez = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getEz());
+    double ***Bx = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBx());
+    double ***By = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBy());
+    double ***Bz = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBz());
+    double ***Bx_ext = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBx_ext());
+    double ***By_ext = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBy_ext());
+    double ***Bz_ext = asgArr3(double, grid->getNXN(), grid->getNYN(), grid->getNZN(), EMf->getBz_ext());
+    double Fext = EMf->getFext();
+
+    get_weights(grid, x[rest], y[rest], z[rest], ix, iy, iz, weights);
+    get_Bl(weights, ix, iy, iz, Bxl, Byl, Bzl, Bx, By, Bz, Bx_ext, By_ext, Bz_ext, Fext);
+    get_El(weights, ix, iy, iz, Exl, Eyl, Ezl, Ex, Ey, Ez);
+
+    Vector3d oldE = Vector3d(Exl, Eyl, Ezl);
+    Vector3d oldB = Vector3d(Bxl, Byl, Bzl);
+
+    return evaluateAlphaRotationTensor(beta, velocity, gamma, oldE, oldB);
 }

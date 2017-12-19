@@ -11,7 +11,7 @@ Case              = Shock                            # Case [ GEM | Dipole | ...
 FieldsInit        = ./data/Initial-Fields_000000.h5 # Initial fields h5 file
 PartInit          = Maxwell                         # Initial particles [ Maxwell | File ]
 WriteMethod       = default                         # Output method [ default | Parallel ]
-PoissonCorrection = yes                             # Poisson correction [ yes | no ]
+PoissonCorrection = no                             # Poisson correction [ yes | no ]
 SimulationName    = Shock                            # Simulation name for the output
 
 #  %%%%%%%%%%%%%%%%%%% Magnetic Reconnection %%%%%%%%%%%%%%%%%%
@@ -75,7 +75,7 @@ qom             = -16.0  1.0        # Charge/mass ratio
 uth             = 0.004   0.001     # Thermal velocity in X
 vth             = 0.004   0.001     # Thermal velocity in Y
 wth             = 0.004   0.001     # Thermal velocity in Z
-u0              = -0.995     -0.995        # Drift velocity in X
+u0              = -0.1     -0.1        # Drift velocity in X
 v0              = 0.0     0.0        # Drift velocity in X
 w0              = 0.0 	0.0   # Drift velocity in X
 

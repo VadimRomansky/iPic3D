@@ -127,6 +127,19 @@ EMfields3D::EMfields3D(Collective *col, Grid *grid) {
     Jys = newArr4(double, ns, nxn, nyn, nzn);
     Jzs = newArr4(double, ns, nxn, nyn, nzn);
     Mus = newArr4(Matrix3d, ns, nxn, nyn, nzn);
+    /*Mus = new Matrix3d***[ns];
+    for(int s = 0; s < ns; ++s){
+        Mus[s] = new Matrix3d**[nxn];
+    for(int i = 0; i < nxn; ++i) {
+        Mus[s][i] = new Matrix3d*[nyn];
+        for (int j = 0; j < nyn; ++j) {
+            Mus[s][i][j] = new Matrix3d[nzn];
+            for (int k = 0; k < nzn; ++k) {
+                Mus[s][i][j][k] = Matrix3d(0, 0, 0, 0, 0, 0, 0 ,0 ,0);
+            }
+        }
+    }
+    }*/
     pXXsn = newArr4(double, ns, nxn, nyn, nzn);
     pXYsn = newArr4(double, ns, nxn, nyn, nzn);
     pXZsn = newArr4(double, ns, nxn, nyn, nzn);
@@ -481,7 +494,7 @@ void EMfields3D::MUdot(double ***MUdotX, double ***MUdotY, double ***MUdotZ, dou
                 MUdotY[i][j][k] = 0.0;
                 MUdotZ[i][j][k] = 0.0;
             }
-    for (int is = 0; is < ns; is++) {
+    /*for (int is = 0; is < ns; is++) {
         beta = .5 * qom[is] * dt / c;
         for (int i = 1; i < nxn - 1; i++)
             for (int j = 1; j < nyn - 1; j++)
@@ -492,13 +505,21 @@ void EMfields3D::MUdot(double ***MUdotX, double ***MUdotY, double ***MUdotZ, dou
                     edotb = vectX[i][j][k] * omcx + vectY[i][j][k] * omcy + vectZ[i][j][k] * omcz;
                     denom = FourPI / 2 * delt * dt / c * qom[is] * rhons[is][i][j][k] /
                             (1.0 + omcx * omcx + omcy * omcy + omcz * omcz);
-                    //MUdotX[i][j][k] += (vectX[i][j][k] + (vectY[i][j][k] * omcz - vectZ[i][j][k] * omcy + edotb * omcx)) * denom;
-                    //MUdotY[i][j][k] += (vectY[i][j][k] + (vectZ[i][j][k] * omcx - vectX[i][j][k] * omcz + edotb * omcy)) * denom;
-                    //MUdotZ[i][j][k] += (vectZ[i][j][k] + (vectX[i][j][k] * omcy - vectY[i][j][k] * omcx + edotb * omcz)) * denom;
+                    MUdotX[i][j][k] += (vectX[i][j][k] + (vectY[i][j][k] * omcz - vectZ[i][j][k] * omcy + edotb * omcx)) * denom;
+                    MUdotY[i][j][k] += (vectY[i][j][k] + (vectZ[i][j][k] * omcx - vectX[i][j][k] * omcz + edotb * omcy)) * denom;
+                    MUdotZ[i][j][k] += (vectZ[i][j][k] + (vectX[i][j][k] * omcy - vectY[i][j][k] * omcx + edotb * omcz)) * denom;
                 }
+    }*/
 
-    }
-
+    for (int is = 0; is < ns; is++) {
+        for (int i = 1; i < nxn - 1; i++)
+            for (int j = 1; j < nyn - 1; j++)
+                for (int k = 1; k < nzn - 1; k++) {
+                    MUdotX[i][j][k] += vectX[i][j][k]*Mus[is][i][j][k].matrix[0][0] + vectY[i][j][k] * Mus[is][i][j][k].matrix[0][1] + vectZ[i][j][k]*Mus[is][i][j][k].matrix[0][2];
+                    MUdotY[i][j][k] += vectX[i][j][k]*Mus[is][i][j][k].matrix[1][0] + vectY[i][j][k] * Mus[is][i][j][k].matrix[1][1] + vectZ[i][j][k]*Mus[is][i][j][k].matrix[1][2];
+                    MUdotZ[i][j][k] += vectX[i][j][k]*Mus[is][i][j][k].matrix[2][0] + vectY[i][j][k] * Mus[is][i][j][k].matrix[2][1] + vectZ[i][j][k]*Mus[is][i][j][k].matrix[2][2];
+                }
+                }
 }
 
 /* Interpolation smoothing: Smoothing (vector must already have ghost cells) TO MAKE SMOOTH value as to be different from 1.0 type = 0 --> center based vector ; type = 1 --> node based vector ; */
@@ -1089,6 +1110,8 @@ void EMfields3D::calculateHatFunctions(Grid *grid, VirtualTopology3D *vct) {
         PIdot(Jxh, Jyh, Jzh, tempXN, tempYN, tempZN, is, grid);
 
     }
+
+    sumOverSpeciesMu();
     // smooth j
     smooth(Smooth, Jxh, 1, grid, vct);
     smooth(Smooth, Jyh, 1, grid, vct);
@@ -1315,8 +1338,8 @@ void EMfields3D::addJz(double weight[][2][2], int X, int Y, int Z, int is) {
 
 
 /*! add mu*/
-void EMfields3D::addMu(Matrix3d tensor, int X, int Y, int Z, int i, int j, int k, int is) {
-    Mus[is][X - i][Y - j][Z - k] += tensor * invVOL;
+void EMfields3D::addMu(Matrix3d &tensor, int X, int Y, int Z, int i, int j, int k, int is, double weight) {
+    Mus[is][X - i][Y - j][Z - k] += tensor * weight * invVOL;
 }
 
 /*! add an amount of pressure density - direction XX to current density field on the node */
@@ -1380,6 +1403,7 @@ void EMfields3D::setZeroDensities() {
                 Jz[i][j][k] = 0.0;
                 Jzh[i][j][k] = 0.0;
                 rhon[i][j][k] = 0.0;
+                Mu[i][j][k] = Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0);
             }
     for (register int i = 0; i < nxc; i++)
         for (register int j = 0; j < nyc; j++)
@@ -1395,6 +1419,7 @@ void EMfields3D::setZeroDensities() {
                     Jxs[kk][i][j][k] = 0.0;
                     Jys[kk][i][j][k] = 0.0;
                     Jzs[kk][i][j][k] = 0.0;
+                    Mus[kk][i][j][k] = Matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0);
                     pXXsn[kk][i][j][k] = 0.0;
                     pXYsn[kk][i][j][k] = 0.0;
                     pXZsn[kk][i][j][k] = 0.0;

@@ -276,6 +276,8 @@ class EMfields3D                // :public Field
     void addPyz(double weight[][2][2], int X, int Y, int Z, int is);
     /*! add an amount of pressure density - direction ZZ to current density field at node X,Y,Z */
     void addPzz(double weight[][2][2], int X, int Y, int Z, int is);
+    /*add dielectric temsor*/
+    void addMu(Matrix3d &tensor, int X, int Y, int Z, int i, int j, int k, int is, double weight);
 
     /*! adjust densities on boundaries that are not periodic */
     void adjustNonPeriodicDensities(int is, VirtualTopology3D * vct);

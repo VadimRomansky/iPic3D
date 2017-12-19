@@ -61,9 +61,6 @@ class Particles3D:public Particles3Dcomm {
     /** mover with the esplicit non relativistic scheme */
     void mover_explicit(Grid * grid, VirtualTopology3D * vct, Field * EMf);
 
-    void get_Bl(const double weights[2][2][2], int ix, int iy, int iz, double& Bxl, double& Byl, double& Bzl, double*** Bx, double*** By, double*** Bz, double*** Bx_ext, double*** By_ext, double*** Bz_ext, double Fext);
-    void get_El(const double weights[2][2][2], int ix, int iy, int iz, double& Exl, double& Eyl, double& Ezl, double*** Ex, double*** Ey, double*** Ez);
-    void get_weights(Grid * grid, double xp, double yp, double zp, int& ix, int& iy, int& iz, double weights[2][2][2]);
     /** mover with a Predictor-Corrector Scheme */
     int mover_PC(Grid * grid, VirtualTopology3D * vct, Field * EMf);
     int mover_PC_sub(Grid * grid, VirtualTopology3D * vct, Field * EMf);
@@ -84,8 +81,8 @@ class Particles3D:public Particles3Dcomm {
     void MaxwellianFromFluidCell(Grid* grid, Collective *col, int is, int i, int j, int k, int &ip, double *x, double *y, double *z, double *q, double *vx, double *vy, double *vz, unsigned long* ParticleID);
 
     void relativistic_add_velocity(const double &u0, const double &v0, const double &w0, double &up, double &vp, double &wp);
-    Matrix3d evaluateAlphaRotationTensor(double beta, Vector3d &velocity, double &gamma, Vector3d &EField, Vector3d &BField);
-    Matrix3d evaluateAlphaRotationTensor(Grid * grid, Field * EMf , int rest);
+    //Matrix3d evaluateAlphaRotationTensor(double beta, Vector3d &velocity, double &gamma, Vector3d &EField, Vector3d &BField);
+    //Matrix3d evaluateAlphaRotationTensor(Grid * grid, Field * EMf , int rest);
 };
 
 
