@@ -400,6 +400,7 @@ void EMfields3D::MaxwellImage(double *im, double *vector, Grid *grid, VirtualTop
     neg(imageZ, nxn, nyn, nzn);
     // grad(div(mu dot E(n + theta)) mu dot E(n + theta) = D
     MUdot(Dx, Dy, Dz, vectX, vectY, vectZ, grid);
+    //MUdotRelativistic(Dx, Dy, Dz, vectX, vectY, vectZ, grid);
     grid->divN2C(divC, Dx, Dy, Dz);
     // communicate you should put BC
     // think about the Physics
@@ -494,7 +495,7 @@ void EMfields3D::MUdot(double ***MUdotX, double ***MUdotY, double ***MUdotZ, dou
                 MUdotY[i][j][k] = 0.0;
                 MUdotZ[i][j][k] = 0.0;
             }
-    /*for (int is = 0; is < ns; is++) {
+    for (int is = 0; is < ns; is++) {
         beta = .5 * qom[is] * dt / c;
         for (int i = 1; i < nxn - 1; i++)
             for (int j = 1; j < nyn - 1; j++)
@@ -509,7 +510,22 @@ void EMfields3D::MUdot(double ***MUdotX, double ***MUdotY, double ***MUdotZ, dou
                     MUdotY[i][j][k] += (vectY[i][j][k] + (vectZ[i][j][k] * omcx - vectX[i][j][k] * omcz + edotb * omcy)) * denom;
                     MUdotZ[i][j][k] += (vectZ[i][j][k] + (vectX[i][j][k] * omcy - vectY[i][j][k] * omcx + edotb * omcz)) * denom;
                 }
-    }*/
+    }
+}
+
+
+
+/*! Calculate MU dot (vectX, vectY, vectZ) */
+void EMfields3D::MUdotRelativistic(double ***MUdotX, double ***MUdotY, double ***MUdotZ, double ***vectX, double ***vectY,
+                       double ***vectZ, Grid *grid) {
+    double beta, edotb, omcx, omcy, omcz, denom;
+    for (int i = 1; i < nxn - 1; i++)
+        for (int j = 1; j < nyn - 1; j++)
+            for (int k = 1; k < nzn - 1; k++) {
+                MUdotX[i][j][k] = 0.0;
+                MUdotY[i][j][k] = 0.0;
+                MUdotZ[i][j][k] = 0.0;
+            }
 
     for (int is = 0; is < ns; is++) {
         for (int i = 1; i < nxn - 1; i++)

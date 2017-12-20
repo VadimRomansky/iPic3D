@@ -697,6 +697,9 @@ private:
     void BoundaryConditionsEImage(double ***imageX, double ***imageY, double ***imageZ,double ***vectorX, double ***vectorY, double ***vectorZ,int nx, int ny, int nz, VirtualTopology3D *vct,Grid *grid);
 
     void sumOverSpeciesMu();
+
+    void MUdotRelativistic(double ***MUdotX, double ***MUdotY, double ***MUdotZ, double ***vectX, double ***vectY,
+                           double ***vectZ, Grid *grid);
 };
 
 typedef EMfields3D Field;

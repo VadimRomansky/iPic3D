@@ -258,8 +258,8 @@ bool c_Solver::ParticlesMover() {
   for (int i = 0; i < ns; i++)  // move each species
   {
     // #pragma omp task inout(part[i]) in(grid) target_device(booster)
-    //mem_avail = part[i].mover_PC_sub(grid, vct, EMf); // use the Predictor Corrector scheme
-    mem_avail = part[i].mover_relativistic(grid, vct, EMf); // use the Predictor Corrector scheme кудфешмшыешс
+    mem_avail = part[i].mover_PC_sub(grid, vct, EMf); // use the Predictor Corrector scheme
+    //mem_avail = part[i].mover_relativistic(grid, vct, EMf); // use the Predictor Corrector scheme кудфешмшыешс
   }
   // timeTasks.end(TimeTasks::PARTICLES);
 
@@ -335,6 +335,7 @@ void c_Solver::WriteConserved(int cycle) {
     TOTmomentum = 0.0;
     for (int is = 0; is < ns; is++) {
       Ke[is] = part[is].getKe();
+      //Ke[is] = part[is].getRelativisticKe();
       TOTenergy += Ke[is];
       momentum[is] = part[is].getP();
       TOTmomentum += momentum[is];

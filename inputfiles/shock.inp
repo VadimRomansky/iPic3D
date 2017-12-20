@@ -11,24 +11,24 @@ Case              = Shock                            # Case [ GEM | Dipole | ...
 FieldsInit        = ./data/Initial-Fields_000000.h5 # Initial fields h5 file
 PartInit          = Maxwell                         # Initial particles [ Maxwell | File ]
 WriteMethod       = default                         # Output method [ default | Parallel ]
-PoissonCorrection = no                             # Poisson correction [ yes | no ]
+PoissonCorrection = yes                             # Poisson correction [ yes | no ]
 SimulationName    = Shock                            # Simulation name for the output
 
 #  %%%%%%%%%%%%%%%%%%% Magnetic Reconnection %%%%%%%%%%%%%%%%%%
-B0x = 0.649
-B0y = 0.0
-B0z = 0.375
+B0x = 0.0097
+B0y = 0.00
+B0z = 0.00
 
 # External magnetic field parameters:
 B1x = 0.000
 B1y = 0.000
 B1z = 0.000
 
-delta = 0.1
+delta = 0.5
 
 #  %%%%%%%%%%%%%%%%%%% TIME %%%%%%%%%%%%%%%%%%
-dt = 0.5               # dt = time step  
-ncycles = 10000          # cycles
+dt = 0.1               # dt = time step  
+ncycles = 1500          # cycles
 th = 1.0               # th =   decentering parameter
 c = 1.0                # c = light speed 
 
@@ -37,16 +37,16 @@ Smooth = 0.5           # Smoothing value (5-points stencil)
 
 
 # %%%%%%%%%%%%%%%%%% BOX SIZE %%%%%%%%%%%%%%%
-Lx =   128.0            # Lx = simulation box length - x direction   
-Ly =   0.125            # Ly = simulation box length - y direction
-Lz =   0.125             # Lz = simulation box length - z direction   
+Lx =   10.0            # Lx = simulation box length - x direction   
+Ly =   1.0            # Ly = simulation box length - y direction
+Lz =   1.0             # Lz = simulation box length - z direction   
 
 x_center =   1.        # Lx = simulation box length - x direction in m  
 y_center =   1.        # Ly = simulation box length - y direction in m
 z_center =   1.        # Lz = simulation box length - z direction in m  
 L_square =   .1
 
-nxc =  1024              # nxc = number of cells - x direction        
+nxc =  64              # nxc = number of cells - x direction        
 nyc =  1              # nyc = number of cells - y direction
 nzc =  1               # nzc = number of cells - z direction        
 
@@ -66,18 +66,18 @@ rhoINIT         = 1.0  1.0           # Initial density (make sure you are neutra
 rhoINJECT       = 1.0  1.0           # Injection density (make sure you are neutral)
 TrackParticleID = 0    0             # TrackParticleID[species] = 1=true, 0=false 
 
-npcelx          = 10    10             # Particles per cell in X
-npcely          = 1    1             # Particles per cell in Y
-npcelz          = 1    1             # Particles per cell in Z
+npcelx          = 3    3             # Particles per cell in X
+npcely          = 3    3             # Particles per cell in Y
+npcelz          = 3    3             # Particles per cell in Z
 NpMaxNpRatio    = 3.0                # Maximum number of particles allocated
 
-qom             = -16.0  1.0        # Charge/mass ratio
-uth             = 0.004   0.001     # Thermal velocity in X
-vth             = 0.004   0.001     # Thermal velocity in Y
-wth             = 0.004   0.001     # Thermal velocity in Z
-u0              = -0.1     -0.1        # Drift velocity in X
+qom             = -256.0  1.0        # Charge/mass ratio
+uth             = 0.045   0.0063     # Thermal velocity in X
+vth             = 0.045   0.0063     # Thermal velocity in Y
+wth             = 0.045   0.0063     # Thermal velocity in Z
+u0              = -0.01     -0.01        # Drift velocity in X
 v0              = 0.0     0.0        # Drift velocity in X
-w0              = 0.0 	0.0   # Drift velocity in X
+w0              = 0.0 	  0.0  # Drift velocity in X
 
 # %%%%%%%%%%%% Periodicity in each direction %%%%%%%%%%%%%%%
 PERIODICX       = 1                  # In direction X (1=true, 0=false)
@@ -125,7 +125,7 @@ Vinj                   = 0.0      # Velocity of the injection from the wall
 CGtol                  = 1E-3     # CG solver stopping criterium tolerance
 GMREStol               = 1E-3     # GMRES solver stopping criterium tolerance
 NiterMover             = 3        # mover predictor corrector iteration
-FieldOutputCycle       = 5      # Output for field
-ParticlesOutputCycle   = 5      # Output for particles if 1 it doesnt save particles data
-RestartOutputCycle     = 100000     # restart cycle
+FieldOutputCycle       = 10      # Output for field
+ParticlesOutputCycle   = 10      # Output for particles if 1 it doesnt save particles data
+RestartOutputCycle     = 4000     # restart cycle
 DiagnosticsOutputCycle = 1        # Diagnostics cycle

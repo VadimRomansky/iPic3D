@@ -158,6 +158,7 @@ public:
   long long getNOP() const;
   /** return the Kinetic energy */
   double getKe();
+  double getRelativisticKe();
   /** return the maximum kinetic energy */
   double getMaxVelocity();
   /** return energy distribution */
@@ -339,7 +340,6 @@ protected:
 
   int nvDistLoc;
   c_vDist* vDist;
-
 };
 
 #endif

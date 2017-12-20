@@ -13,7 +13,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c3822a3a-6a07-4f26-80aa-7ddde0d20d60" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/particles/Particles3D.cpp" afterPath="$PROJECT_DIR$/particles/Particles3D.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/fields/EMfields3D.cpp" afterPath="$PROJECT_DIR$/fields/EMfields3D.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/EMfields3D.h" afterPath="$PROJECT_DIR$/include/EMfields3D.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Particles3Dcomm.h" afterPath="$PROJECT_DIR$/include/Particles3Dcomm.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/inputfiles/shock.inp" afterPath="$PROJECT_DIR$/inputfiles/shock.inp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/iPic3Dlib.cpp" afterPath="$PROJECT_DIR$/main/iPic3Dlib.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/particles/Particles3Dcomm.cpp" afterPath="$PROJECT_DIR$/particles/Particles3Dcomm.cpp" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -30,8 +34,8 @@
       <file leaf-file-name="Particles3D.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/particles/Particles3D.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="799" column="8" lean-forward="false" selection-start-line="799" selection-start-column="8" selection-end-line="799" selection-end-column="8" />
+            <state relative-caret-position="25704">
+              <caret line="1428" column="9" lean-forward="false" selection-start-line="1428" selection-start-column="9" selection-end-line="1428" selection-end-column="9" />
               <folding>
                 <element signature="e#360#379#0" expanded="true" />
               </folding>
@@ -42,18 +46,18 @@
       <file leaf-file-name="iPic3Dlib.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/iPic3Dlib.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="261" column="34" lean-forward="false" selection-start-line="261" selection-start-column="34" selection-end-line="261" selection-end-column="34" />
+            <state relative-caret-position="1278">
+              <caret line="71" column="60" lean-forward="false" selection-start-line="71" selection-start-column="60" selection-end-line="71" selection-end-column="60" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Particles3Dcomm.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Particles3Dcomm.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/particles/Particles3Dcomm.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="528" column="69" lean-forward="false" selection-start-line="528" selection-start-column="69" selection-end-line="528" selection-end-column="69" />
+            <state relative-caret-position="20286">
+              <caret line="1127" column="28" lean-forward="false" selection-start-line="1127" selection-start-column="28" selection-end-line="1127" selection-end-column="28" />
               <folding>
                 <element signature="e#364#383#0" expanded="true" />
               </folding>
@@ -64,48 +68,28 @@
       <file leaf-file-name="Particles3Dcomm.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/Particles3Dcomm.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-669">
-              <caret line="174" column="18" lean-forward="false" selection-start-line="174" selection-start-column="18" selection-end-line="174" selection-end-column="18" />
+            <state relative-caret-position="2880">
+              <caret line="160" column="13" lean-forward="false" selection-start-line="160" selection-start-column="13" selection-end-line="160" selection-end-column="13" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Particles.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/include/Particles.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="24" column="6" lean-forward="false" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Particles3D.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/include/Particles3D.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-66">
-              <caret line="69" column="8" lean-forward="false" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EMfields3D.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="EMfields3D.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/fields/EMfields3D.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="511" column="7" lean-forward="false" selection-start-line="511" selection-start-column="7" selection-end-line="511" selection-end-column="7" />
+            <state relative-caret-position="360">
+              <caret line="1712" column="37" lean-forward="true" selection-start-line="1712" selection-start-column="37" selection-end-line="1712" selection-end-column="37" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Alloc.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/include/Alloc.h">
+      <file leaf-file-name="iPic3D.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/iPic3D.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3006">
-              <caret line="167" column="43" lean-forward="false" selection-start-line="167" selection-start-column="43" selection-end-line="167" selection-end-column="43" />
+            <state relative-caret-position="630">
+              <caret line="35" column="24" lean-forward="false" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -144,6 +128,7 @@
       <find>theta</find>
       <find>Repopulator species</find>
       <find>aaa</find>
+      <find>Shock</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -181,11 +166,11 @@
         <option value="$PROJECT_DIR$/iPic3D.cpp" />
         <option value="$PROJECT_DIR$/include/EMfields3D.h" />
         <option value="$PROJECT_DIR$/include/Particles3D.h" />
-        <option value="$PROJECT_DIR$/include/Particles3Dcomm.h" />
-        <option value="$PROJECT_DIR$/main/iPic3Dlib.cpp" />
         <option value="$PROJECT_DIR$/particles/Particles3D.cpp" />
-        <option value="$PROJECT_DIR$/fields/EMfields3D.cpp" />
+        <option value="$PROJECT_DIR$/include/Particles3Dcomm.h" />
         <option value="$PROJECT_DIR$/particles/Particles3Dcomm.cpp" />
+        <option value="$PROJECT_DIR$/fields/EMfields3D.cpp" />
+        <option value="$PROJECT_DIR$/main/iPic3Dlib.cpp" />
       </list>
     </option>
   </component>
@@ -369,27 +354,32 @@
       <workItem from="1513162800568" duration="6481000" />
       <workItem from="1513603129485" duration="6672000" />
       <workItem from="1513683777646" duration="8384000" />
-      <workItem from="1513693520750" duration="4744000" />
+      <workItem from="1513693520750" duration="5856000" />
+      <workItem from="1513770648754" duration="4906000" />
+      <workItem from="1513776352875" duration="20000" />
+      <workItem from="1513776463645" duration="56000" />
+      <workItem from="1513781208599" duration="111000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52363000" />
+    <option name="totallyTimeSpent" value="58568000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="159" y="234" width="1303" height="780" extended-state="6" />
+    <frame x="65" y="-4" width="1301" height="772" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24596465" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3183183" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32882884" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33033034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33033034" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4189189" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -408,37 +398,19 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/particles/Particles3D.cpp</url>
-          <line>855</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="23" />
+      <option name="time" value="28" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="CMakeRunConfiguration">
-        <watch expression="Mus[is][i][j][k].matrix[0][0]" />
-        <watch expression="Mus[is][i][j][k].matrix[1][0]" />
-        <watch expression="EMf-&gt;getTheta()" />
-        <watch expression="weight[ii][jj][kk]" />
+        <watch expression="Mus[is][i][j][k]" />
       </configuration>
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1656">
-          <caret line="92" column="37" lean-forward="false" selection-start-line="92" selection-start-column="37" selection-end-line="92" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/GMRES.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -446,7 +418,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-31">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -454,7 +425,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-31">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -462,7 +432,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-31">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -477,9 +446,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-85">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#338#357#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -497,7 +463,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="32" column="102" lean-forward="false" selection-start-line="32" selection-start-column="102" selection-end-line="32" selection-end-column="102" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -505,7 +470,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="64" column="0" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -541,7 +505,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="185" column="2" lean-forward="false" selection-start-line="185" selection-start-column="2" selection-end-line="185" selection-end-column="2" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -619,7 +582,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
           <caret line="17" column="10" lean-forward="false" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -656,7 +618,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-31">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -671,7 +632,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-31">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -700,7 +660,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-247">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -711,22 +670,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/iPic3D.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="33" column="18" lean-forward="false" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/EMfields3D.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11016">
-          <caret line="612" column="19" lean-forward="false" selection-start-line="612" selection-start-column="19" selection-end-line="612" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/postprocessing_tools/c++/parsek-hdf-to-vtk-ver2.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-633">
@@ -734,11 +677,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeFiles/iPic3D.dir/build.make" />
+    <entry file="file://$PROJECT_DIR$/include/Particles.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="24" column="6" lean-forward="false" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Particles3D.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1242">
+          <caret line="69" column="8" lean-forward="false" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/include/Alloc.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3006">
           <caret line="167" column="43" lean-forward="false" selection-start-line="167" selection-start-column="43" selection-end-line="167" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -753,70 +710,70 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeFiles/iPic3D.dir/build.make">
+    <entry file="file://$PROJECT_DIR$/include/EMfields3D.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="821" column="0" lean-forward="false" selection-start-line="821" selection-start-column="0" selection-end-line="821" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/iPic3Dlib.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="261" column="34" lean-forward="false" selection-start-line="261" selection-start-column="34" selection-end-line="261" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fields/EMfields3D.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="511" column="7" lean-forward="false" selection-start-line="511" selection-start-column="7" selection-end-line="511" selection-end-column="7" />
+        <state relative-caret-position="11016">
+          <caret line="612" column="19" lean-forward="false" selection-start-line="612" selection-start-column="19" selection-end-line="612" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/particles/Particles3D.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="799" column="8" lean-forward="false" selection-start-line="799" selection-start-column="8" selection-end-line="799" selection-end-column="8" />
+        <state relative-caret-position="25704">
+          <caret line="1428" column="9" lean-forward="false" selection-start-line="1428" selection-start-column="9" selection-end-line="1428" selection-end-column="9" />
           <folding>
             <element signature="e#360#379#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/Particles.h">
+    <entry file="file://$PROJECT_DIR$/iPic3D.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="24" column="6" lean-forward="false" selection-start-line="24" selection-start-column="6" selection-end-line="24" selection-end-column="6" />
+        <state relative-caret-position="630">
+          <caret line="35" column="24" lean-forward="false" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/Particles3D.h">
+    <entry file="file://$PROJECT_DIR$/grids/Grid3DCU.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-66">
-          <caret line="69" column="8" lean-forward="false" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="8" />
-          <folding />
+        <state relative-caret-position="-78">
+          <caret line="126" column="15" lean-forward="false" selection-start-line="126" selection-start-column="15" selection-end-line="126" selection-end-column="15" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/Particles3Dcomm.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-669">
-          <caret line="174" column="18" lean-forward="false" selection-start-line="174" selection-start-column="18" selection-end-line="174" selection-end-column="18" />
+        <state relative-caret-position="2880">
+          <caret line="160" column="13" lean-forward="false" selection-start-line="160" selection-start-column="13" selection-end-line="160" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/particles/Particles3Dcomm.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="528" column="69" lean-forward="false" selection-start-line="528" selection-start-column="69" selection-end-line="528" selection-end-column="69" />
+        <state relative-caret-position="20286">
+          <caret line="1127" column="28" lean-forward="false" selection-start-line="1127" selection-start-column="28" selection-end-line="1127" selection-end-column="28" />
           <folding>
             <element signature="e#364#383#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/iPic3Dlib.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1278">
+          <caret line="71" column="60" lean-forward="false" selection-start-line="71" selection-start-column="60" selection-end-line="71" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fields/EMfields3D.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="1712" column="37" lean-forward="true" selection-start-line="1712" selection-start-column="37" selection-end-line="1712" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>
